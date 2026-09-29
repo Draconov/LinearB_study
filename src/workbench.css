@@ -8,3 +8,21 @@
 @media print{:root,body{background:white!important}.print-sheet{color:#111}}
 
 .tablet-scale{display:block;width:68px;height:6px;border:solid #bfc6b7;border-width:0 1px 1px;background:linear-gradient(to right,transparent 49%,#bfc6b7 49%,#bfc6b7 51%,transparent 51%);margin:0 auto;}
+
+/* Quiet chrome: keep the charcoal navigation and clay tools, remove the old page furniture. */
+.sidebar{padding-top:28px}
+.main-column{margin-left:220px}
+.main-content{padding-top:34px}
+.studio-aside{position:sticky;top:24px;align-self:start}
+.pad-caption-model{justify-content:flex-end;min-height:42px;align-items:center}
+.pad-caption-model .copy-model{font-size:36px;color:#596048;letter-spacing:.08em}
+.tablet-bed-label{display:none}
+*{scrollbar-width:thin;scrollbar-color:#7b876e transparent}
+*::-webkit-scrollbar{width:10px;height:10px}
+*::-webkit-scrollbar-track{background:transparent}
+*::-webkit-scrollbar-thumb{background:#7b876e;border:3px solid transparent;border-radius:8px;background-clip:padding-box}
+*::-webkit-scrollbar-thumb:hover{background:#aa7251;border-color:transparent;background-clip:padding-box}
+select,input{accent-color:#7b876e}
+select{color:#30372e;background:#f3f0e5}
+button{transition:background-color .16s ease,border-color .16s ease,color .16s ease}
+@media(max-width:760px){.main-column{margin-left:0}.main-content{padding-top:26px}.studio-aside{position:static}.pad-caption-model{min-height:34px}.pad-caption-model .copy-model{font-size:29px}}
