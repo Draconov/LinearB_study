@@ -1,0 +1,11 @@
+import {attemptId} from "../progress/attemptId";
+import {useState} from "react";import {signs,signById} from "../content/signs";import type {ProgressApi} from "../progress/useProgress";import DrawingPad,{type WriteMode} from "../writing/DrawingPad";
+export default function WriteView({api,initialSign="a"}:{api:ProgressApi;initialSign?:string}){
+ const [selected,setSelected]=useState(initialSign),[mode,setMode]=useState<WriteMode>("trace");
+ const sign=signById[selected]??signs[0];const index=signs.findIndex(s=>s.id===sign.id);
+ return <><header className="page-header"><p className="eyebrow">YOUR WRITING STUDIO</p><h1>Make it your own.</h1><p className="muted">A steady hand starts with a little practice.</p></header>
+ <div className="studio-layout"><section className="panel writing-panel"><div className="studio-top"><label>Choose a sign<select value={sign.id} onChange={e=>setSelected(e.target.value)}>{signs.map(s=><option key={s.id} value={s.id}>{s.id} · {s.number}</option>)}</select></label><div className="segmented" aria-label="Writing mode">{(["trace","copy","memory"] as const).map(m=><button key={m} aria-pressed={mode===m} onClick={()=>setMode(m)}>{m[0].toUpperCase()+m.slice(1)}</button>)}</div></div>
+ <DrawingPad key={sign.id+mode} sign={sign} mode={mode} onAssess={correct=>api.submitOutcome({attemptId:attemptId(),signId:sign.id,skill:"writing",correct,now:Date.now(),extra:true})}/>
+ <div className="between"><button className="quiet" disabled={!index} onClick={()=>setSelected(signs[index-1].id)}>← Previous</button><button className="quiet" onClick={()=>setSelected(signs[(index+1)%signs.length].id)}>Next sign →</button></div></section>
+ <aside className="studio-aside"><div className="sign-card"><span className="eyebrow">SIGN {sign.number.replace("B","")}</span>{mode!=="memory"?<span className="sign specimen">{sign.glyph}</span>:<div className="memory-mark" aria-hidden="true">?</div>}<h2>{sign.id}</h2><p className="muted">{mode==="memory"?"Recall its shape before revealing the model.":sign.note}</p></div><div className="tip"><span className="eyebrow">A SMALL REMINDER</span><p>Shape before speed.</p><p className="muted small">Look for the long lines, the short marks, and where they meet. There’s no handwriting score to chase.</p></div></aside></div></>;
+}

@@ -1,0 +1,21 @@
+@media screen{.print-sheet{display:none}}
+@media print{
+ @page{size:auto;margin:12mm}
+ :root,html,body{background:white;color:black;font-size:12pt}
+ .app-shell{display:none!important}
+ .print-sheet{display:block;width:100%;max-width:185mm;margin:auto;font-family:Arial,sans-serif}
+ .practice-page{break-after:page;page-break-after:always}
+ .practice-page:last-child{break-after:auto;page-break-after:auto}
+ .practice-page header{margin-bottom:9mm}
+ .practice-page h1{font-size:22pt;margin:0 0 3mm;font-family:Georgia,serif}
+ .practice-page h1 span{font:12pt Arial;display:block;margin-top:2mm}
+ .practice-page header p{font-size:9pt;line-height:1.4;margin:0}
+ .practice-row{display:grid;grid-template-columns:17mm repeat(6,minmax(0,1fr));height:34mm;break-inside:avoid;page-break-inside:avoid;border-bottom:1px solid #bbb}
+ .print-label{display:flex;flex-direction:column;justify-content:center}
+ .print-label strong{font-size:12pt}.print-label small{font-size:8pt;color:#666}
+ .practice-cell{display:flex;align-items:center;justify-content:center;border-left:1px dashed #ccc}
+ .practice-cell .sign{font-size:36pt;line-height:1}
+ .trace-example{color:#b9b9b9}
+ .practice-page footer{margin-top:8mm;font-size:8pt;color:#555}
+ .practice-page footer p{margin:0 0 2mm}
+}

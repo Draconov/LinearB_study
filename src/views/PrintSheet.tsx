@@ -1,0 +1,5 @@
+import {signById} from "../content/signs";
+export default function PrintSheet({signIds}:{signIds:string[]}){
+ const valid=[...new Set(signIds)].filter(id=>Object.hasOwn(signById,id)),pages=Array.from({length:Math.ceil(valid.length/5)},(_,i)=>valid.slice(i*5,i*5+5));
+ return <div className="print-sheet">{pages.map((ids,i)=><section className="practice-page" key={i}><header><h1>Linear B <span>Handwriting practice</span></h1><p>Follow the pale models, then try the empty spaces. These are practice forms, not prescribed ancient stroke orders.</p></header>{ids.map(id=><div className="practice-row" key={id}><div className="print-label"><strong>{id}</strong><small>{signById[id].number}</small></div>{Array.from({length:6},(_,j)=><div className={"practice-cell "+(j===1||j===2?"trace-example":"")} key={j}>{j<3&&<span className="sign">{signById[id].glyph}</span>}</div>)}</div>)}<footer><p>Character reference: Unicode Linear B Syllabary · unicode.org/charts/PDF/U10000.pdf</p><p>Glyphs: Noto Sans Linear B, SIL Open Font License · Page {i+1} of {pages.length}</p></footer></section>)}</div>;
+}

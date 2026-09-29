@@ -1,0 +1,22 @@
+import {attemptId} from "../progress/attemptId";
+import {useState} from "react";import type {Lesson,Sign} from "../content/types";import {lessons} from "../content/lessons";import {signs,signById} from "../content/signs";import {readings} from "../content/readings";import type {ProgressApi} from "../progress/useProgress";import DrawingPad from "../writing/DrawingPad";import {makePrompt} from "./prompts";import RecognitionPrompt from "./RecognitionPrompt";import ReadingExercise from "./ReadingExercise";
+function SignQuestion({sign,pool,reverse,api,onNext}:{sign:Sign;pool:string[];reverse:boolean;api:ProgressApi;onNext:()=>void}){
+ const [prompt]=useState(()=>makePrompt(sign.id,pool,reverse?"reading-to-sign":"sign-to-reading",attemptId()));
+ return <RecognitionPrompt prompt={prompt} onAnswer={correct=>api.submitOutcome({attemptId:prompt.id,signId:sign.id,skill:"recognition",correct,now:Date.now(),extra:false})} onContinue={onNext}/>;
+}
+export default function LessonRunner({lesson,progressApi:api,onNextLesson,onPrint}:{lesson:Lesson;progressApi:ProgressApi;onNextLesson:()=>void;onPrint:(ids:string[])=>void}){
+ const step=api.progress.cursor?.lessonId===lesson.id?api.progress.cursor.step:0;
+ const next=()=>api.setCursor({lessonId:lesson.id,step:step+1});
+ const complete=()=>{api.completeLesson(lesson.id);onNextLesson();};
+ if(lesson.kind==="intro")return <div className="lesson-intro"><div className="intro-signs" aria-hidden="true">{signs.slice(0,5).map(s=><span className="sign" key={s.id}>{s.glyph}</span>)}</div><h2>A script made of syllables.</h2>{lesson.paragraphs.map(p=><p key={p}>{p}</p>)}<button className="primary full" onClick={complete}>Begin with the vowels <span aria-hidden="true">→</span></button><div className="intro-foot"><span>5 signs in your first lesson</span><span>No Greek needed</span></div></div>;
+ if(lesson.kind==="reading")return <ReadingExercise key={lesson.id} reading={readings.find(r=>r.id===lesson.readingId)!} tablet={lesson.id==="tablet"} onComplete={complete}/>;
+ const n=lesson.signIds.length,total=n*6+1;
+ if(step===0)return <div className="lesson-intro"><p className="eyebrow">A NEW FAMILY</p><div className="intro-signs">{lesson.signIds.map(id=><div key={id}><span className="sign">{signById[id].glyph}</span><small>{id}</small></div>)}</div>{lesson.paragraphs.map(p=><p key={p}>{p}</p>)}<button className="primary full" onClick={next}>Learn the first sign <span aria-hidden="true">→</span></button></div>;
+ if(step>=total)return <div className="lesson-recap"><div className="completion-mark" aria-hidden="true">✓</div><p className="eyebrow">ONE LESSON, MANY SMALL STEPS</p><h2>Nicely practised.</h2><p>You’ve worked through {lesson.signIds.join(", ")}. Your recognition results and writing assessments will help shape your next review.</p><div className="intro-signs">{lesson.signIds.map(id=><span className="sign" key={id}>{signById[id].glyph}</span>)}</div><button className="primary full" onClick={complete}>Complete lesson <span aria-hidden="true">→</span></button><button className="quiet" onClick={()=>onPrint(lesson.signIds)}>Print practice sheet</button></div>;
+ const index=Math.floor((step-1)/6),stage=(step-1)%6,sign=signById[lesson.signIds[index]];
+ const lessonIndex=lessons.findIndex(l=>l.id===lesson.id),pool=lessons.slice(0,lessonIndex+1).flatMap(l=>l.kind==="signs"?l.signIds:[]);
+ const writing=stage>=2&&stage<=4;const mode=stage===2?"trace":stage===3?"copy":"memory";
+ return <div><div className="exercise-meta"><span>Sign {index+1} of {n}</span><span>{["Meet","Recognise","Trace","Copy","Recall","Recognise"][stage]}</span></div><progress className="lesson-progress" max={total} value={step} aria-label="Lesson progress"/>
+ {stage===0?<div className="meet-sign"><span className="sign specimen">{sign.glyph}</span><h2>Meet <em>{sign.id}</em>.</h2><p>{sign.note}</p><span className="sign-number">{sign.number} · {lesson.id==="vowels"?"Vowel":lesson.id+" family"}</span><button className="primary full" onClick={next}>Try recognising it <span aria-hidden="true">→</span></button></div>:writing?<><DrawingPad key={lesson.id+step} sign={sign} mode={mode} onAssess={correct=>{if(stage===4)api.submitOutcome({attemptId:attemptId(),signId:sign.id,skill:"writing",correct,now:Date.now(),extra:false});next();}}/><button className="quiet skip-writing" onClick={next}>Skip this writing step →</button></>:<SignQuestion key={lesson.id+step} sign={sign} pool={pool} reverse={stage===5} api={api} onNext={next}/>}
+ </div>;
+}
