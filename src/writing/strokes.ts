@@ -1,4 +1,4 @@
-export interface Point{x:number;y:number}
+export interface Point{x:number;y:number;pressure?:number}
 export interface PadState{strokes:Point[][];active:{pointerId:number;points:Point[]}|null}
 export const emptyPad=():PadState=>({strokes:[],active:null});
 export function normalisePoint(x:number,y:number,r:{left:number;top:number;width:number;height:number}):Point{return {x:Math.max(0,Math.min(1,(x-r.left)/(r.width||1))),y:Math.max(0,Math.min(1,(y-r.top)/(r.height||1)))};}

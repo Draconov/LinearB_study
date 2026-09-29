@@ -1,4 +1,4 @@
-import {lessons} from "../content/lessons";import {signById} from "../content/signs";import {emptyProgress} from "./review";import type {Progress} from "./types";
+import {lessons,lessonStepLimit} from "../content/lessons";import {signById} from "../content/signs";import {emptyProgress} from "./review";import type {Progress} from "./types";
 export type StorageLike=Pick<Storage,"getItem"|"setItem">;
 export type StorageStatus="ok"|"blocked"|"invalid"|"unsupported";
 export const STORAGE_KEY="linear-b-progress-v1";
@@ -11,7 +11,7 @@ export function validProgress(v:unknown):v is Progress{
  if(v.cursor!==null){
   if(!obj(v.cursor)||!number(v.cursor.step))return false;
   const cursor=v.cursor;const l=lessons.find(l=>l.id===cursor.lessonId);if(!l)return false;
-  const limit=l.kind==="signs"?l.signIds.length*6+1:0;if((v.cursor.step as number)>limit)return false;
+  const limit=lessonStepLimit(l);if((v.cursor.step as number)>limit)return false;
  }
  if(!obj(v.cards)||!obj(v.stats)||!stringArray(v.recentAttemptIds)||v.recentAttemptIds.length>256||v.recentAttemptIds.some(x=>!x||x.length>200))return false;
  for(const [k,c]of Object.entries(v.cards)){

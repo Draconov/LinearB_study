@@ -1,3 +1,4 @@
+import {workshops} from "./workshops";
 import type { Lesson } from "./types";
 import { signs } from "./signs";
 const family = (id: string, title: string, paragraphs: string[]): Lesson => ({id,kind:"signs",title,paragraphs,signIds:signs.filter(s=>s.family===id).map(s=>s.id)});
@@ -20,4 +21,7 @@ export const lessons: Lesson[] = [
  family("q","The q family",["The labels qa, qe, qi, and qo use a scholarly q convention. Do not read these as the English letter-name ‘cue’. Our goal here is recognising and writing the signs."]),
  family("z","The z family",["Finish the course selection with za, ze, and zo. Conventional transliteration and exact historical pronunciation are different things."]),
  {id:"tablet",kind:"reading",title:"A glimpse of a tablet",readingId:"tripods"}
+ ,...workshops.map(w=>({id:w.id,kind:"workshop" as const,title:w.title,workshopId:w.id}))
 ];
+
+export const lessonStepLimit=(lesson:Lesson)=>lesson.kind==="signs"?lesson.signIds.length*6+1:lesson.kind==="workshop"?2:0;

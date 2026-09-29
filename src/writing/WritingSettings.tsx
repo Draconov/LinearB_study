@@ -7,7 +7,8 @@ export function useWritingSettings(){
  return {settings,update,saved};
 }
 export default function WritingSettings({settings,update,saved}:ReturnType<typeof useWritingSettings>){
- return <details className="writing-settings"><summary>Writing settings</summary><div className="settings-grid">
+ return <details className="writing-settings"><summary>Stylus & surface settings</summary><div className="settings-grid">
+ <label>Surface<select value={settings.surface} onChange={e=>update({surface:e.target.value as "clay"|"plain"})}><option value="clay">Clay tablet</option><option value="plain">Plain / high contrast</option></select></label>
  <label>Pen width<select value={settings.width} onChange={e=>update({width:Number(e.target.value)})}><option value={.004}>Thin</option><option value={.008}>Medium</option><option value={.012}>Bold</option></select></label>
  <label>Tracing guide<select value={settings.opacity} onChange={e=>update({opacity:Number(e.target.value)})}><option value={.2}>Faint</option><option value={.55}>Medium</option><option value={.85}>Strong</option></select></label>
  <label className="check-setting"><input type="checkbox" checked={settings.grid} onChange={e=>update({grid:e.target.checked})}/> Centre guides</label>

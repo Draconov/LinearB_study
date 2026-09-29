@@ -14,6 +14,6 @@ export function compareShape(ink:Point[][],model:Point[][]):ShapeFeedback{
  const far=(p:Point,points:Point[])=>!points.some(q=>distance(p,q)<.045);
  const missing=target.filter(p=>far(p,drawn)),stray=drawn.filter(p=>far(p,target));
  const close=missing.length/Math.max(1,target.length)<.12&&stray.length/drawn.length<.15;
- const message=close?'Your main lines are close to this practice model. Look at their joins and proportions.':missing.length&&stray.length?'Follow the amber model marks and check the blue marks for position or length.':missing.length?'Some model marks are still uncovered. Look at the amber areas before trying again.':'Check the blue marks: they extend away from this practice model.';
+ const message=close?'Your main lines are close to this practice model. Look at their joins and proportions.':missing.length&&stray.length?'Follow the highlighted model marks and check the blue marks for position or length.':missing.length?'Some model marks are still uncovered. Look at the highlighted areas before trying again.':'Check the blue marks: they extend away from this practice model.';
  return {kind:close?'close':'practice',missing,stray,message};
 }

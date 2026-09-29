@@ -13,6 +13,6 @@ describe('gentle shape guidance',()=>{
 });
 describe('writing settings',()=>{
  it('falls back for corrupt and out-of-range settings',()=>{expect(parseSettings('broken')).toEqual(parseSettings(null));expect(parseSettings('{"width":99,"opacity":-1,"penOnly":"yes"}')).toEqual(parseSettings(null));});
- it('preserves valid settings and gates only the canvas input',()=>{expect(parseSettings('{"width":0.012,"opacity":0.2,"grid":false,"leftHanded":true,"penOnly":true}')).toEqual({width:.012,opacity:.2,grid:false,leftHanded:true,penOnly:true});expect(acceptsPointer('touch',true)).toBe(false);expect(acceptsPointer('pen',true)).toBe(true);expect(acceptsPointer('mouse',false)).toBe(true);});
+ it('preserves valid settings and gates only the canvas input',()=>{expect(parseSettings('{"width":0.012,"opacity":0.2,"grid":false,"leftHanded":true,"penOnly":true}')).toEqual({width:.012,opacity:.2,grid:false,leftHanded:true,penOnly:true,surface:"clay"});expect(acceptsPointer('touch',true)).toBe(false);expect(acceptsPointer('pen',true)).toBe(true);expect(acceptsPointer('mouse',false)).toBe(true);});
 });
 it('has a finite, drawable guide for each of the 59 signs',()=>{expect(Object.keys(guides).sort()).toEqual(signs.map(s=>s.id).sort());for(const paths of Object.values(guides)){expect(paths.length).toBeGreaterThan(0);for(const path of paths){expect(path.length).toBeGreaterThan(1);for(const p of path){expect(p.x).toBeGreaterThanOrEqual(.05);expect(p.x).toBeLessThanOrEqual(.95);expect(p.y).toBeGreaterThanOrEqual(.05);expect(p.y).toBeLessThanOrEqual(.95);}}}});
