@@ -45,3 +45,5 @@ button{transition:background-color .16s ease,border-color .16s ease,color .16s e
 .offline-menu .update-notice{border-top:1px solid #495048;margin-top:12px;padding-top:10px}
 .offline-menu .update-notice button{width:100%;min-height:34px;padding:7px;font-size:.7rem}
 @media(max-width:760px){.brand{display:none}.offline-menu{display:none}}
+
+.comparison-switch{display:flex;flex-wrap:wrap;width:fit-content;margin-top:18px}.sign-feedback{display:flex;flex-wrap:wrap;gap:6px 24px;padding-left:20px;font-size:.8rem}.sign-feedback li{padding-left:2px}

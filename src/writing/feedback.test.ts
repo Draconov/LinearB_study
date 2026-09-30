@@ -1,5 +1,5 @@
 import {describe,it,expect} from 'vitest';
-import {compareShape} from './feedback';
+import {compareShape,comparePlacement} from './feedback';
 import {parseSettings,acceptsPointer} from './settings';
 import guides from './guides.json';
 import {signs} from '../content/signs';
@@ -8,7 +8,7 @@ describe('gentle shape guidance',()=>{
  it('does not judge blank ink',()=>{expect(compareShape([],cross).kind).toBe('empty');});
  it('accepts an exact shape regardless of stroke order and direction',()=>{const r=compareShape([...cross].reverse().map(p=>[...p].reverse()),cross);expect(r.kind).toBe('close');expect(r.missing).toHaveLength(0);expect(r.stray).toHaveLength(0);});
  it('finds the missing upper and lower marks',()=>{const r=compareShape([cross[0]],cross);expect(r.missing.some(p=>p.y<.3)).toBe(true);expect(r.stray).toHaveLength(0);});
- it('highlights displaced ink',()=>{expect(compareShape([[{x:.1,y:.1},{x:.9,y:.1}]],cross).stray.length).toBeGreaterThan(10);});
+ it('highlights displaced ink only in placement guidance',()=>{expect(comparePlacement([[{x:.1,y:.1},{x:.9,y:.1}]],cross).stray.length).toBeGreaterThan(10);});
  it('tolerates small placement variations',()=>{expect(compareShape(cross.map(s=>s.map(p=>({x:p.x+.02,y:p.y}))),cross).kind).toBe('close');});
 });
 describe('writing settings',()=>{
