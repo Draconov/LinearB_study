@@ -26,3 +26,22 @@ select,input{accent-color:#7b876e}
 select{color:#30372e;background:#f3f0e5}
 button{transition:background-color .16s ease,border-color .16s ease,color .16s ease}
 @media(max-width:760px){.main-column{margin-left:0}.main-content{padding-top:26px}.studio-aside{position:static}.pad-caption-model{min-height:34px}.pad-caption-model .copy-model{font-size:29px}}
+
+/* Brand and offline installation live in the charcoal navigation. */
+.brand{display:flex;flex-direction:column;align-items:flex-start;gap:2px;margin:0 0 42px;padding:0 10px;color:#fff3d5}
+.brand strong{font:700 31px/1 Georgia,'Times New Roman',serif;letter-spacing:-.04em}
+.brand span{font:400 12px/1.35 Arial,Helvetica,sans-serif;color:#c5cbbd;letter-spacing:.04em}
+.offline-menu{margin-top:auto;padding:18px 10px 0;border-top:1px solid #495048;color:#c9d0c2;font-size:.68rem}
+.offline-menu-status{display:flex;align-items:flex-start;gap:8px;line-height:1.4;color:#d8dfcf}
+.offline-menu .status-dot{margin-top:4px;width:7px;height:7px;background:#a18e74}
+.offline-menu .status-dot.ready{background:#8aaa70}
+.offline-menu-install{width:100%;margin-top:12px;padding:9px 10px;min-height:36px;background:#ad7954;border-color:#c99365;color:#fff7e7;font-size:.72rem}
+.offline-menu-install:hover:not(:disabled){background:#c18a60}
+.offline-menu-installed{display:block;margin-top:10px;color:#9ead91}
+.offline-menu-retry{color:#d7ddcf;padding:6px 0;font-size:.7rem}
+.offline-menu details{margin-top:12px}
+.offline-menu summary{cursor:pointer;min-height:28px;color:#b9c3b3}
+.offline-menu p{margin:9px 0;color:#aeb9a9;line-height:1.55}
+.offline-menu .update-notice{border-top:1px solid #495048;margin-top:12px;padding-top:10px}
+.offline-menu .update-notice button{width:100%;min-height:34px;padding:7px;font-size:.7rem}
+@media(max-width:760px){.brand{display:none}.offline-menu{display:none}}

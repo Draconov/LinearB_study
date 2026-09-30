@@ -1,4 +1,4 @@
-# Linear B — Learn & Write
+# [Linear B — Learn & Write](https://draconov.github.io/LinearB_study/)
 
 A beginner website for recognising and handwriting 59 conventional Linear B syllabic signs. Twenty-eight lessons move from sign families into spelling conventions, palace accounts, sourced tablet readings, and short writing exercises.
 
