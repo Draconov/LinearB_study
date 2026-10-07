@@ -6,6 +6,11 @@ import {convert,decode,editText,knownWords} from '../compose/conversion';
 import '../compose/compose.css';
 const LIMIT=4000,DRAFT_LIMIT=LIMIT*4;
 type Mode='convert'|'keyboard'|'decode';
+const keyboardVowels=['a','e','i','o','u'];
+const keyboardRows=['','d','j','k','m','n','p','q','r','s','t','w','z'];
+function SignKey({sign,onInsert}:{sign:KeySign;onInsert:(glyph:string)=>void}){
+ return <button className="compose-key" title={`${sign.id}${sign.number?' · '+sign.number:''}`} aria-label={`Insert ${sign.id}${sign.number?' · '+sign.number:''}`} onClick={()=>onInsert(sign.glyph)}><span className="sign" aria-hidden="true">{sign.glyph}</span><span>{sign.id}</span></button>;
+}
 function CopyButton({value,field,label}:{value:string;field:RefObject<HTMLTextAreaElement|null>;label:string}){
  const [copied,setCopied]=useState<string|null>(null),[failed,setFailed]=useState(false);
  return <><button disabled={!value} onClick={async()=>{try{if(!navigator.clipboard?.writeText)throw new Error('Clipboard unavailable');await navigator.clipboard.writeText(value);setCopied(value);setFailed(false);}catch{setFailed(true);field.current?.focus();field.current?.select();}}}>{copied===value&&value?'Copied ✓':label}</button>{failed&&<span className="small" role="status">Text selected. Use your device’s Copy command.</span>}</>;
@@ -53,7 +58,7 @@ export default function ComposeView(){
  {notes.length>0&&<details className="compose-notes" open><summary>{mode==='convert'?'Spelling notes':'Reading notes'} · {notes.length}</summary><ul>{notes.map(note=><li key={note}>{note}</li>)}</ul></details>}
  {mode==='keyboard'&&<section className="compose-keyboard" aria-label="Linear B keyboard"><div className="compose-section-heading"><h2>The sign keyboard.</h2><label className="compose-search">Find a sign<input value={search} onChange={e=>setSearch(e.target.value)} placeholder="ka, B077…" type="search"/></label></div>
   <div className="segmented keyboard-tabs" role="group" aria-label="Keyboard group">{[['core','Core · 59'],['additional','Additional · 29'],['records','Objects & numbers']].map(([id,label])=><button key={id} aria-pressed={group===id} onClick={()=>{setGroup(id);setSearch('');}}>{label}</button>)}</div>
-  <div className="compose-key-grid">{visibleKeys.map(s=><button key={s.glyph} className="compose-key" title={`${s.id}${s.number?' · '+s.number:''}`} aria-label={`Insert ${s.id}${s.number?' · '+s.number:''}`} onClick={()=>insert(s.glyph)}><span className="sign" aria-hidden="true">{s.glyph}</span><span>{s.id}</span></button>)}</div>
+  {group==='core'?<table className="compose-syllable-table" aria-label="Syllables by consonant and vowel"><thead><tr><td aria-label="Consonant"/>{keyboardVowels.map(v=><th key={v} scope="col">{v}</th>)}</tr></thead><tbody>{keyboardRows.filter(row=>visibleKeys.some(s=>keyboardVowels.some(v=>s.id===row+v))).map(row=><tr key={row}><th scope="row" aria-label={row||'Vowels'}>{row||'–'}</th>{keyboardVowels.map(v=>{const sign=visibleKeys.find(s=>s.id===row+v);return <td key={v}>{sign&&<SignKey sign={sign} onInsert={insert}/>}</td>;})}</tr>)}</tbody></table>:<div className="compose-key-grid">{visibleKeys.map(s=><SignKey key={s.glyph} sign={s} onInsert={insert}/>)}</div>}
   {!visibleKeys.length&&<p>No signs match this search in this group.</p>}
   <p className="small muted">{group==='additional'?'Additional signs use Unicode labels. Numbered signs have no sound value supplied here. These are separate from the 59-sign beginner course.':group==='records'?'A selection of object signs, additive numerals and a word divider. Object signs identify things; they are not syllables.':'Each key inserts a Unicode character that can be copied into other apps.'}</p>
  </section>}
