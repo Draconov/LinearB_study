@@ -47,3 +47,5 @@ button{transition:background-color .16s ease,border-color .16s ease,color .16s e
 @media(max-width:760px){.brand{display:none}.offline-menu{display:none}}
 
 .comparison-switch{display:flex;flex-wrap:wrap;width:fit-content;margin-top:18px}.sign-feedback{display:flex;flex-wrap:wrap;gap:6px 24px;padding-left:20px;font-size:.8rem}.sign-feedback li{padding-left:2px}
+
+@media(max-width:760px){.sidebar nav .nav-button{min-width:44px;flex:1 1 0}}

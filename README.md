@@ -28,6 +28,16 @@ The static production output is `dist/`. Vite uses a relative base so assets can
 
 Handwriting keeps the learner’s Again/Comfortable assessment. Geometric feedback compares form with one practice model; it is approximate, does not recognise arbitrary handwriting, assign a grade, or judge historical authenticity. Rotation and mirroring are not fitted away. If signs overlap or cannot be separated confidently, order remains unconfirmed. Symbol-and-number records retain visual comparison only. The numbered guides are modern construction suggestions derived from the bundled font, not a prescribed ancient stroke order. Conventional transliteration is not an exact pronunciation reconstruction. This is a script primer, not a full Mycenaean Greek course.
 
+## Compose: convert, type and decode
+
+Open **Compose** in the main menu. All processing runs locally and works offline after installation.
+
+- **Convert:** approximate Latin-letter words or names, or choose exact hyphenated syllables such as `ti-ri-po-de`. Approximation follows the entered spelling, not automatic English pronunciation. Spelling changes and unavailable syllables are explained; this is not translation into Mycenaean Greek.
+- **Keyboard:** insert all 88 Unicode syllabary characters, six course object signs, 45 Aegean numeral characters and a word divider. Additional/uncertain signs retain Unicode labels or sign numbers. Search by reading or number, insert at the cursor, replace a selection, and delete whole signs.
+- **Decode:** paste Linear B to obtain syllable labels, object labels and additive quantities. Whole-word matches show meanings and sources from the seven-entry course glossary. Unknown sequences remain readable without invented translations.
+
+Copy signs or readings into other apps. The destination needs a font supporting Linear B. Automatic clipboard access requires a supported secure origin; otherwise the text is selected for the device's Copy command. Drafts survive menu changes but are cleared by reloading. Copy anything you want to keep before updating or closing the page.
+
 ## Offline practice and installation
 
 After deployment, open the HTTPS website online once and wait for **Ready for offline practice**. All app assets, including the sign font, are cached. Lessons, handwriting, guides and tablet exercises then work offline; external source links still need a connection.
